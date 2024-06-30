@@ -41,6 +41,7 @@ class Prepare_to_start:
         return self.web3.eth.get_balance(self.address)
 
     def get_transaction_count(self):
+        assert self.check_connection(), 'Web3 is not connected'
         return self.web3.eth.get_transaction_count(self.address)
 
     def latest_block(self):
