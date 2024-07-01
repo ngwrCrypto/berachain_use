@@ -1,5 +1,6 @@
-from web3 import Web3
+from web3 import Web3 as w3
 import time
+from tools.rpc import RPC
 from web3.gas_strategies.time_based import (
     medium_gas_price_strategy as mid_price,
     fast_gas_price_strategy as fast_price,
@@ -7,20 +8,11 @@ from web3.gas_strategies.time_based import (
     glacial_gas_price_strategy as newer_willBe_price,)
 
 from web3.middleware import geth_poa_middleware
-# from B_Chain.tools import RPC
-RPC = {
-    'BERACHAIN_RPC': {
-        "network": "Berachain bArtio Testnet",
-        "rpc_url": "https://bartio.rpc.berachain.com/",
-        "ChainID": 80084,
-        "symbol": "BERA",
-        "block_explorer": "https://bartio.beratrail.io/",
-    },
 
-}
+
 class Prepare_to_start:
-    def __init__(self, address):
-        self.web3 = Web3(Web3.HTTPProvider(RPC['BERACHAIN_RPC']['rpc_url']))
+    def __init__(self, address: str, w3):
+        self.web3 = w3(w3.HTTPProvider(RPC['BERACHAIN_RPC']['rpc_url']))
         self.address = self.web3.to_checksum_address(address)
         self._latest_block = None
         self._latest_block_time = 0
@@ -38,7 +30,9 @@ class Prepare_to_start:
         return self.web3.eth.gas_price
 
     def get_balance(self):
-        return self.web3.eth.get_balance(self.address)
+        assert self.is_valid_adress(), 'Address is not valid'
+        balance = self.web3.eth.get_balance(self.address)
+        return self.web3(balance, 'ether')
 
     def get_transaction_count(self):
         assert self.check_connection(), 'Web3 is not connected'

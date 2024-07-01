@@ -6,11 +6,13 @@ from web3.types import TxParams
 from icecream import ic
 
 class Full_dive_into_W3(Prepare_to_start):
-    def __init__(self, address, rpc, w3):
-        super().__init__(address=address)
+    def __init__(self, address,rpc, w3, private_key):
+        super().__init__(address=address, w3=w3)
         self.rpc = rpc
-        self.web3 = w3
+        self.private_key = private_key
 
+
+    def approve(self, token_address, spender_address):
 
 
 
