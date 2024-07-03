@@ -1,6 +1,5 @@
 from web3 import Web3 as w3
 import time
-from tools.rpc import RPC
 from web3.gas_strategies.time_based import (
     medium_gas_price_strategy as mid_price,
     fast_gas_price_strategy as fast_price,
@@ -10,8 +9,21 @@ from web3.gas_strategies.time_based import (
 from web3.middleware import geth_poa_middleware
 
 
+
+# RPC
+RPC = {
+    'BERACHAIN_RPC': {
+        "network": "Berachain bArtio Testnet",
+        "rpc_url": "https://bartio.rpc.berachain.com/",
+        "ChainID": 80084,
+        "symbol": "BERA",
+        "block_explorer": "https://bartio.beratrail.io/",
+    },
+
+}
+
 class Prepare_to_start:
-    def __init__(self, address: str, w3):
+    def __init__(self, address: str):
         self.web3 = w3(w3.HTTPProvider(RPC['BERACHAIN_RPC']['rpc_url']))
         self.address = self.web3.to_checksum_address(address)
         self._latest_block = None

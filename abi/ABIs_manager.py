@@ -1,5 +1,5 @@
 import json
-from abi import *
+from abi import abi
 from typing import List, Dict, Any
 from dataclasses import dataclass, asdict
 
@@ -13,10 +13,10 @@ class TokenABI:
 class ABImanager:
     def __init__(self):
         self.abis = {
-            "BEX_ABI": TokenABI("BEX_ABI", bex_abi),
-            "ERC20_ABI": TokenABI("ERC20_ABI", erc_20_abi),
-            "HONEY_ABI": TokenABI("HONEY_ABI", honey_abi),
-            "BEND_ABI": TokenABI("BEND_ABI", bend_abi)
+            "BEX_ABI": TokenABI("BEX_ABI", abi.bex_abi),
+            "ERC20_ABI": TokenABI("ERC20_ABI", abi.erc_20_abi),
+            "HONEY_ABI": TokenABI("HONEY_ABI", abi.honey_abi),
+            "BEND_ABI": TokenABI("BEND_ABI", abi.bend_abi)
         }
 
     def get_abi(self, token_name):
