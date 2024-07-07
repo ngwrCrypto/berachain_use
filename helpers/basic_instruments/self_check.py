@@ -23,9 +23,9 @@ RPC = {
 }
 
 class Prepare_to_start:
-    def __init__(self, address: str):
+    def __init__(self, user_address: str):
         self.web3 = w3(w3.HTTPProvider(RPC['BERACHAIN_RPC']['rpc_url']))
-        self.address = self.web3.to_checksum_address(address)
+        self.user_address = self.web3.to_checksum_address(user_address)
         self._latest_block = None
         self._latest_block_time = 0
         self.BLOCK_FRESHNESS_TRESHOLD = 12
@@ -33,7 +33,7 @@ class Prepare_to_start:
         #     return await self.web3.is_connected()
 
     def is_valid_adress(self):
-        return self.web3.is_address(self.address)
+        return self.web3.is_address(self.user_address)
 
     def check_connection(self):
         return self.web3.is_connected()
@@ -43,12 +43,12 @@ class Prepare_to_start:
 
     def get_balance(self):
         assert self.is_valid_adress(), 'Address is not valid'
-        balance = self.web3.eth.get_balance(self.address)
-        return self.web3(balance, 'ether')
+        balance = self.web3.eth.get_balance(self.user_address)
+        return self.web3.from_wei(balance, 'ether')
 
     def get_transaction_count(self):
         assert self.check_connection(), 'Web3 is not connected'
-        return self.web3.eth.get_transaction_count(self.address)
+        return self.web3.eth.get_transaction_count(self.user_address)
 
     def latest_block(self):
         current_time = time.time()
